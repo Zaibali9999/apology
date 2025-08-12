@@ -28,8 +28,6 @@
     a.button, button{background:var(--accent);border:0;color:white;padding:10px 16px;border-radius:999px;font-weight:600;cursor:pointer;box-shadow:0 6px 18px rgba(255,107,154,0.18);transition:transform .12s ease;text-decoration:none;display:inline-block}
     a.button:active, button:active{transform:translateY(2px) scale(.995)}
 
-    .small{position:hidden;background:transparent;color:var(--muted);box-shadow:none;padding:8px 12px;border-radius:10px}
-
     .heart{position:absolute;left:50%;top:18px;transform:translateX(-50%);font-size:26px;opacity:.95}
 
     .heart-float{position:absolute;bottom:-40px;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;pointer-events:none}
@@ -63,26 +61,28 @@
     </div>
 
     <div class="controls">
-      <a id="reply" class="button">Reply</a>
-      <a href="https://wa.link/fv1ual" target="_blank" class="button">WhatsApp Me 💬</a>
-      <audio id="bg-music" src="song.mp3" autoplay loop></audio>
-      
+      <a id="reply" class="button" role="button" tabindex="0">Reply</a>
+      <a href="https://wa.link/fv1ual" target="_blank" class="button" rel="noopener noreferrer">WhatsApp Me 💬</a>
+      <button id="music-toggle" class="button">Play Music 🎵</button>
+      <audio id="bg-music" src="song.mp3" loop></audio>
     </div>
 
- 
+    <footer>Click "Change message" if you'd like different words — I can personalise it with names or dates.</footer>
   </div>
 
   <script>
      const messageLines = [
-    "Hi Aisha,",
-    "I know I messed up. The way I spoke to you was rude, and I truly didn’t mean to disrespect you.",
-    "You mean the world to me, and I'll do better. I promise to listen, learn, and love you more every day.",
-    "Can we have a warm hug and a fresh start?❤️"
-  ];
+      "Hi Aisha,",
+      "I know I messed up. The way I spoke to you was rude, and I truly didn’t mean to disrespect you.",
+      "You mean the world to me, and I'll do better. I promise to listen, learn, and love you more every day.",
+      "Can we have a warm hug and a fresh start? ❤️"
+    ];
 
     const typingEl = document.getElementById('typing');
     const replyBtn = document.getElementById('reply');
- 
+
+    const musicToggle = document.getElementById('music-toggle');
+    const bgMusic = document.getElementById('bg-music');
 
     let charDelay = 28;
     let lineDelay = 700;
@@ -126,7 +126,6 @@
       }
     }
 
-
     replyBtn.addEventListener('click', ()=>{
       playTyping(messageLines);
     });
@@ -136,7 +135,16 @@
     });
 
     replyBtn.addEventListener('keyup', (e)=>{ if(e.key === 'Enter' || e.key === ' ') replyBtn.click(); });
+
+    musicToggle.addEventListener('click', () => {
+      if (bgMusic.paused) {
+        bgMusic.play();
+        musicToggle.textContent = 'Pause Music 🔇';
+      } else {
+        bgMusic.pause();
+        musicToggle.textContent = 'Play Music 🎵';
+      }
+    });
   </script>
 </body>
 </html>
-
