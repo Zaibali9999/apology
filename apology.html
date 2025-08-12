@@ -13,44 +13,195 @@
       --shadow: 0 10px 30px rgba(107,107,107,0.08);
     }
     *{box-sizing:border-box}
-    body{margin:0;min-height:100vh;display:grid;place-items:center;background:linear-gradient(180deg,var(--bg),#fff);font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial}
-
-    .stage{width:92vw;max-width:760px;padding:28px;border-radius:20px;background:var(--card);box-shadow:var(--shadow);text-align:center;position:relative;overflow:hidden}
-
-    h1{margin:6px 0 0;font-size:28px;color:var(--accent);letter-spacing:0.3px}
-    p.lead{margin:12px 0 20px;color:var(--muted);line-height:1.5}
-
-    .message{font-size:18px;min-height:110px;display:flex;align-items:center;justify-content:center;padding:10px 18px;border-radius:12px;background:linear-gradient(90deg,rgba(255,107,154,0.06),rgba(255,195,210,0.04));box-shadow:inset 0 -2px 0 rgba(0,0,0,0.02)}
-
-    .typing{font-family: 'Georgia', serif; font-size:18px;color:#333;white-space:pre-wrap}
-
-    .controls{margin-top:18px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-    a.button, button{background:var(--accent);border:0;color:white;padding:10px 16px;border-radius:999px;font-weight:600;cursor:pointer;box-shadow:0 6px 18px rgba(255,107,154,0.18);transition:transform .12s ease;text-decoration:none;display:inline-block}
-    a.button:active, button:active{transform:translateY(2px) scale(.995)}
-
-    .heart{position:absolute;left:50%;top:18px;transform:translateX(-50%);font-size:26px;opacity:.95}
-
-    .heart-float{position:absolute;bottom:-40px;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;pointer-events:none}
-    .heart-float::before{content:'\2764';font-size:22px;color:var(--accent);transform:translateY(0);display:inline-block}
-
-    @keyframes floatUp{
-      0%{transform:translateY(0) scale(0.8);opacity:0}
-      10%{opacity:1}
-      100%{transform:translateY(-120vh) scale(1.15);opacity:0}
+    body {
+      margin:0;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(180deg,var(--bg),#fff);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;
+      overflow-x: hidden;
     }
 
-    .spark{position:absolute;right:14px;top:14px;width:12px;height:12px;border-radius:3px;background:linear-gradient(45deg,#ffd2e0,#fff);opacity:.85;transform:rotate(25deg)}
+    /* Big initial button */
+    #open-btn {
+      font-size: 48px;
+      font-weight: 700;
+      padding: 40px 80px;
+      border-radius: 50px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(255,107,154,0.6);
+      transition: transform 0.2s ease;
+    }
+    #open-btn:hover {
+      transform: scale(1.05);
+    }
+    #open-btn:active {
+      transform: scale(0.95);
+    }
 
-    footer{margin-top:14px;color:#9a9a9a;font-size:13px}
+    .stage {
+      width: 92vw;
+      max-width: 760px;
+      padding: 28px;
+      border-radius: 20px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      
+      /* start hidden and scaled down */
+      opacity: 0;
+      transform: scale(0.85);
+      pointer-events: none;
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    /* Show the card with animation */
+    .stage.open {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+    }
 
-    .cute-heart{display:inline-block;margin-left:8px;transform-origin:center;animation:beat 1.1s infinite}
-    @keyframes beat{0%{transform:scale(1)}40%{transform:scale(1.18)}60%{transform:scale(.96)}100%{transform:scale(1)} }
+    h1 {
+      margin: 6px 0 0;
+      font-size: 28px;
+      color: var(--accent);
+      letter-spacing: 0.3px;
+    }
+    p.lead {
+      margin: 12px 0 20px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
 
-    @media (max-width:420px){ h1{font-size:22px} .message{font-size:16px}}
+    .message {
+      font-size: 18px;
+      min-height: 110px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 18px;
+      border-radius: 12px;
+      background: linear-gradient(90deg,rgba(255,107,154,0.06),rgba(255,195,210,0.04));
+      box-shadow: inset 0 -2px 0 rgba(0,0,0,0.02);
+      white-space: pre-wrap;
+    }
+
+    .typing {
+      font-family: 'Georgia', serif;
+      font-size: 18px;
+      color: #333;
+      white-space: pre-wrap;
+    }
+
+    .controls {
+      margin-top: 18px;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    a.button, button {
+      background: var(--accent);
+      border: 0;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(255,107,154,0.18);
+      transition: transform .12s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+    a.button:active, button:active {
+      transform: translateY(2px) scale(.995);
+    }
+
+    .heart {
+      position: absolute;
+      left: 50%;
+      top: 18px;
+      transform: translateX(-50%);
+      font-size: 26px;
+      opacity: .95;
+    }
+
+    .heart-float {
+      position: absolute;
+      bottom: -40px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+    .heart-float::before {
+      content: '\2764';
+      font-size: 22px;
+      color: var(--accent);
+      transform: translateY(0);
+      display: inline-block;
+    }
+
+    @keyframes floatUp {
+      0% {transform: translateY(0) scale(0.8); opacity:0}
+      10% {opacity:1}
+      100% {transform: translateY(-120vh) scale(1.15); opacity:0}
+    }
+
+    .spark {
+      position: absolute;
+      right: 14px;
+      top: 14px;
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      background: linear-gradient(45deg,#ffd2e0,#fff);
+      opacity: .85;
+      transform: rotate(25deg);
+    }
+
+    footer {
+      margin-top: 14px;
+      color: #9a9a9a;
+      font-size: 13px;
+    }
+
+    .cute-heart {
+      display: inline-block;
+      margin-left: 8px;
+      transform-origin: center;
+      animation: beat 1.1s infinite;
+    }
+    @keyframes beat {
+      0% {transform: scale(1)}
+      40% {transform: scale(1.18)}
+      60% {transform: scale(.96)}
+      100% {transform: scale(1)}
+    }
+
+    @media (max-width:420px) {
+      h1 {font-size: 22px}
+      .message {font-size: 16px}
+      #open-btn {font-size: 36px; padding: 30px 60px;}
+    }
   </style>
 </head>
 <body>
-  <div class="stage" role="region" aria-label="Apology card">
+
+  <!-- Big "Aisha" button -->
+  <button id="open-btn" aria-label="Open apology card for Aisha">Aisha</button>
+
+  <!-- Apology card, hidden initially -->
+  <div class="stage" role="region" aria-label="Apology card" aria-hidden="true">
     <div class="spark" aria-hidden="true"></div>
     <div class="heart" aria-hidden="true">💖</div>
     <h1>I'm so sorry... <span class="cute-heart">💓</span></h1>
@@ -67,33 +218,34 @@
       <audio id="bg-music" src="song.mp3" loop></audio>
     </div>
 
-
+    <footer>Click "Change message" if you'd like different words — I can personalise it with names or dates.</footer>
   </div>
 
   <script>
-     const messageLines = [
+    const openBtn = document.getElementById('open-btn');
+    const stage = document.querySelector('.stage');
+    const typingEl = document.getElementById('typing');
+    const replyBtn = document.getElementById('reply');
+    const musicToggle = document.getElementById('music-toggle');
+    const bgMusic = document.getElementById('bg-music');
+
+    const messageLines = [
       "Hi Aisha,",
       "I know I messed up. The way I spoke to you was rude, and I truly didn’t mean to disrespect you.",
       "You mean the world to me, and I'll do better. I promise to listen, learn, and love you more every day.",
       "Can we have a warm hug and a fresh start? ❤️"
     ];
 
-    const typingEl = document.getElementById('typing');
-    const replyBtn = document.getElementById('reply');
-
-    const musicToggle = document.getElementById('music-toggle');
-    const bgMusic = document.getElementById('bg-music');
-
     let charDelay = 28;
     let lineDelay = 700;
 
-    function sleep(ms){return new Promise(r => setTimeout(r, ms));}
+    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
     async function playTyping(lines){
       typingEl.textContent = '';
-      for(let i=0;i<lines.length;i++){
+      for(let i=0; i<lines.length; i++){
         const line = lines[i];
-        for(let j=0;j<line.length;j++){
+        for(let j=0; j<line.length; j++){
           typingEl.textContent += line[j];
           await sleep(charDelay);
         }
@@ -103,13 +255,13 @@
         }
       }
       const heart = document.querySelector('.cute-heart');
-      heart.animate([{transform:'scale(1)'},{transform:'scale(1.36)'},{transform:'scale(1)'}],{duration:700,easing:'ease-out'});
+      heart.animate([{transform:'scale(1)'},{transform:'scale(1.36)'},{transform:'scale(1)'}], {duration:700,easing:'ease-out'});
       spawnHearts(12);
     }
 
     function spawnHearts(count){
       const stage = document.querySelector('.stage');
-      for(let i=0;i<count;i++){
+      for(let i=0; i<count; i++){
         const el = document.createElement('div');
         el.className = 'heart-float';
         const size = 18 + Math.round(Math.random()*22);
@@ -122,19 +274,30 @@
         el.style.animation = `floatUp ${dur}ms linear forwards`;
         el.style.animationDelay = Math.round(Math.random()*600) + 'ms';
         stage.appendChild(el);
-        setTimeout(()=> el.remove(), dur + 1500);
+        setTimeout(() => el.remove(), dur + 1500);
       }
     }
 
-    replyBtn.addEventListener('click', ()=>{
+    openBtn.addEventListener('click', () => {
+      // Hide the big button
+      openBtn.style.display = 'none';
+      // Show the card with animation
+      stage.classList.add('open');
+      stage.setAttribute('aria-hidden', 'false');
+      // Start typing
+      playTyping(messageLines);
+      // Start music
+      bgMusic.play().catch(() => {
+        // Autoplay might be blocked by browser, no worries
+      });
+      musicToggle.textContent = 'Pause Music 🔇';
+    });
+
+    replyBtn.addEventListener('click', () => {
       playTyping(messageLines);
     });
 
-    window.addEventListener('load', ()=>{
-      playTyping(messageLines);
-    });
-
-    replyBtn.addEventListener('keyup', (e)=>{ if(e.key === 'Enter' || e.key === ' ') replyBtn.click(); });
+    replyBtn.addEventListener('keyup', (e) => { if(e.key === 'Enter' || e.key === ' ') replyBtn.click(); });
 
     musicToggle.addEventListener('click', () => {
       if (bgMusic.paused) {
@@ -148,5 +311,3 @@
   </script>
 </body>
 </html>
-
-
